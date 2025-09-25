@@ -8,7 +8,9 @@ import { fetchUsers } from './services/userService'
 
 export const App: FC = () => {
   const { data, fetchData, loading } = useApi(fetchUsers)
-  const { users, setContext } = useUsers()
+  const { state, setContext } = useUsers()
+
+  const { users } = state
 
   useEffect(() => {
     fetchData()

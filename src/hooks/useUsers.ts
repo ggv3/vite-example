@@ -17,5 +17,5 @@ export const useUsers = () => {
     [dispatch],
   )
 
-  return useMemo(() => ({ ...state, setContext }), [state, setContext])
+  return useMemo(() => ({ state, setContext }), [state, setContext])
 }
