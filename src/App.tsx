@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react'
 import './App.css'
 
 import { Header } from './components/Header/Header'
+import { NewUserForm } from './components/NewUserForm/NewUserForm'
 import { useApi } from './hooks/useApi'
 import { useUsers } from './hooks/useUsers'
 import { fetchUsers } from './services/userService'
@@ -34,6 +35,8 @@ export const App: FC = () => {
           ))}
         </ul>
       )}
+
+      <NewUserForm />
     </>
   )
 }
