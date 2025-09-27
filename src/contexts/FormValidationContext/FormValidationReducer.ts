@@ -28,6 +28,7 @@ export const FormValidationReducer = (
       const existingErrorIndex = formValidationState.errors.findIndex(
         (error) => error.id === action.error.id,
       )
+
       let newErrors
       if (existingErrorIndex !== -1) {
         // Update existing error
@@ -38,17 +39,21 @@ export const FormValidationReducer = (
         // Add new error
         newErrors = [...formValidationState.errors, action.error]
       }
+
       return { ...formValidationState, errors: newErrors }
     }
+
     case 'REMOVE_ERROR': {
       return {
         ...formValidationState,
         errors: formValidationState.errors.filter((error) => error.id !== action.id),
       }
     }
+
     case 'CLEAR_ERRORS': {
       return { ...formValidationState, errors: [] }
     }
+
     case 'UPDATE_ERROR': {
       return {
         ...formValidationState,
