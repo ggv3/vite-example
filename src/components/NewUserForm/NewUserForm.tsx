@@ -1,22 +1,10 @@
 import { FC, useState } from 'react'
 import { useFormValidation } from '../../hooks/useFormValidation'
+import { userFormValidators } from '../../validators/useFormValidators'
 import { FormValidationAlert } from '../FormValidationAlert/FormValidationAlert'
 
 interface NewUserState {
   firstName: string
-}
-
-const requiredValidator = <T,>(value: unknown, _state?: T) => {
-  if (typeof value === 'string' || typeof value === 'number') {
-    if (value.toString().trim() === '') {
-      return 'required'
-    }
-  }
-  return null
-}
-
-const validators = {
-  firstName: [requiredValidator],
 }
 
 export const NewUserForm = () => {
@@ -35,7 +23,7 @@ export const Form: FC = () => {
     firstName: '',
   })
 
-  const { validateField } = useFormValidation({ state: user, validators })
+  const { validateField } = useFormValidation({ state: user, validators: userFormValidators })
   return (
     <form>
       <input

@@ -1,10 +1,15 @@
+import get from 'lodash/get'
 import { useCallback, useContext, useMemo } from 'react'
 import { FormValidationContext } from '../contexts/FormValidationContext/FormValidationContext'
 import { ValidationError } from '../contexts/FormValidationContext/FormValidationReducer'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Validator<T> = (value: any, state?: T) => string | null
+type Validators<T> = Record<string, Validator<T>>
+
 interface UseFormValidationProps<T> {
   state: T
-  validators: Record<keyof T, ((value: unknown, state?: T) => string | null)[]>
+  validators: Validators<T>
 }
 
 export const useFormValidation = <T>({ state, validators }: UseFormValidationProps<T>) => {
@@ -14,9 +19,7 @@ export const useFormValidation = <T>({ state, validators }: UseFormValidationPro
     throw new Error('useFormValidation must be used within a FormValidationProvider')
   }
 
-  const { dispatch } = context
-
-  const { formValidationState } = context
+  const { dispatch, formValidationState } = context
 
   const addError = useCallback(
     (error: ValidationError) => {
@@ -25,22 +28,31 @@ export const useFormValidation = <T>({ state, validators }: UseFormValidationPro
     [dispatch],
   )
 
-  const validateField = useCallback(
-    (id: keyof T) => {
-      const fieldValue = state[id]
-      const fieldValidators = validators[id]
-      fieldValidators.forEach((validator) => {
-        const error = validator(fieldValue, state)
-        if (error) {
-          addError({
-            id: id as string,
-            message: error,
-            orderNumber: 1,
-          })
-        }
-      })
+  const removeError = useCallback(
+    (id: string) => {
+      dispatch({ type: 'REMOVE_ERROR', id })
     },
-    [addError, state, validators],
+    [dispatch],
+  )
+
+  const validateField = useCallback(
+    (id: string) => {
+      const fieldValue = get(state, id) as string | number
+      const fieldValidator = validators[id]
+      if (!fieldValidator) return
+      const errorMessage = fieldValidator(fieldValue, state)
+
+      if (errorMessage) {
+        addError({
+          id,
+          message: errorMessage,
+          orderNumber: 1,
+        })
+      } else {
+        removeError(id)
+      }
+    },
+    [addError, removeError, state, validators],
   )
 
   return useMemo(
