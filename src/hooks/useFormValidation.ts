@@ -20,10 +20,18 @@ export const useFormValidation = <T>({ state, validators }: UseFormValidationPro
   }
 
   const { dispatch, formValidationState } = context
+  const { errors } = formValidationState
 
   const addError = useCallback(
     (error: ValidationError) => {
       dispatch({ type: 'ADD_ERROR', error })
+    },
+    [dispatch],
+  )
+
+  const updateError = useCallback(
+    (error: ValidationError) => {
+      dispatch({ type: 'UPDATE_ERROR', error })
     },
     [dispatch],
   )
@@ -36,23 +44,30 @@ export const useFormValidation = <T>({ state, validators }: UseFormValidationPro
   )
 
   const validateField = useCallback(
-    (id: string) => {
+    (id: string, orderNumber: number) => {
       const fieldValue = get(state, id) as string | number
       const fieldValidator = validators[id]
-      if (!fieldValidator) return
+      // if (!fieldValidator) return
+
       const errorMessage = fieldValidator(fieldValue, state)
+      const existingError = errors.find((err: ValidationError) => err.id === id)
 
       if (errorMessage) {
-        addError({
+        const errorObj = {
           id,
           message: errorMessage,
-          orderNumber: 1,
-        })
+          orderNumber,
+        }
+        if (existingError) {
+          updateError(errorObj)
+        } else {
+          addError(errorObj)
+        }
       } else {
         removeError(id)
       }
     },
-    [addError, removeError, state, validators],
+    [state, validators, errors, updateError, addError, removeError],
   )
 
   return useMemo(
