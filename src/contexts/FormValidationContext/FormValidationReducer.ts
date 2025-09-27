@@ -25,22 +25,10 @@ export const FormValidationReducer = (
       return { ...formValidationState, isAlertVisible: !formValidationState.isAlertVisible }
     }
     case 'ADD_ERROR': {
-      const existingErrorIndex = formValidationState.errors.findIndex(
-        (error) => error.id === action.error.id,
-      )
-
-      let newErrors
-      if (existingErrorIndex !== -1) {
-        // Update existing error
-        newErrors = formValidationState.errors.map((error) =>
-          error.id === action.error.id ? { ...error, ...action.error } : error,
-        )
-      } else {
-        // Add new error
-        newErrors = [...formValidationState.errors, action.error]
+      return {
+        ...formValidationState,
+        errors: [...formValidationState.errors, action.error],
       }
-
-      return { ...formValidationState, errors: newErrors }
     }
 
     case 'REMOVE_ERROR': {

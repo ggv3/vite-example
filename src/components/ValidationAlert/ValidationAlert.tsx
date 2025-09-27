@@ -14,12 +14,14 @@ export const ValidationAlert: FC = () => {
     return null
   }
 
+  const sortedErrors = errors.sort((a, b) => a.orderNumber - b.orderNumber)
+
   return (
     <div>
       <h2>Validation Errors:</h2>
       <ul>
-        {errors.map((error) => (
-          <li key={error.id}>{error.message}</li>
+        {sortedErrors.map((error) => (
+          <li key={error.id}>{`${error.id}: ${error.message}`}</li>
         ))}
       </ul>
     </div>
