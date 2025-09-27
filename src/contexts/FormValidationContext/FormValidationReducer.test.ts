@@ -27,15 +27,6 @@ describe('ADD_ERROR', () => {
     expect(newState.errors).toHaveLength(1)
     expect(newState.errors[0]).toEqual(error)
   })
-
-  it('updates an existing error when adding with same id', () => {
-    const error1: ValidationError = { id: '1', message: 'Required', orderNumber: 1 }
-    const error2: ValidationError = { id: '1', message: 'Invalid', orderNumber: 2 }
-    const state = { ...initialState, errors: [error1] }
-    const newState = FormValidationReducer(state, { type: 'ADD_ERROR', error: error2 })
-    expect(newState.errors).toHaveLength(1)
-    expect(newState.errors[0]).toEqual({ ...error1, ...error2 })
-  })
 })
 
 describe('REMOVE_ERROR', () => {

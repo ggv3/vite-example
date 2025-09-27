@@ -1,8 +1,9 @@
 {
   "git": {
-    "commitMessage": "chore(release): ${version}",
     "tagName": "v${version}",
-    "push": true
+    "commitMessage": "chore(release): ${version}",
+    "push": true,
+    "tag": "true"
   },
   "github": {
     "release": false
@@ -13,7 +14,18 @@
   "plugins": {
     "@release-it/conventional-changelog": {
       "preset": "conventionalcommits",
-      "infile": "CHANGELOG.md"
+      "infile": "CHANGELOG.md",
+      "releaseRules": [
+        { "type": "chore", "release": false },
+        { "type": "docs", "release": false },
+        { "type": "style", "release": false },
+        { "type": "refactor", "release": false },
+        { "type": "test", "release": false },
+        { "type": "perf", "release": "patch" },
+        { "type": "fix", "release": "patch" },
+        { "type": "feat", "release": "minor" },
+        { "breaking": true, "release": "major" }
+      ]
     }
   }
 }
