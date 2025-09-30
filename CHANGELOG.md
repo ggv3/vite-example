@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.2](https://github.com/ggv3/vite-example/compare/v0.2.1...v0.2.2) (2025-09-30)
+
+### Bug Fixes
+
+* alert becomes visible when cleared fields has errors ([07d877a](https://github.com/ggv3/vite-example/commit/07d877a93d9211ce67a52602e93f5e880d614819))
+
 ## [0.2.1](https://github.com/ggv3/vite-example/compare/v0.2.0...v0.2.1) (2025-09-30)
 
 ## [0.2.0](https://github.com/ggv3/vite-example/compare/v0.1.1...v0.2.0) (2025-09-30)
