@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.0](https://github.com/ggv3/vite-example/compare/v0.1.1...v0.2.0) (2025-09-30)
+
+### Features
+
+* add validateAll function ([af40bb1](https://github.com/ggv3/vite-example/commit/af40bb1235c32140777d470d8aae52c743aad89c))
+
 ## [0.1.1](https://github.com/ggv3/vite-example/compare/v0.1.0...v0.1.1) (2025-09-29)
 
 ## 0.1.0 (2025-09-29)
