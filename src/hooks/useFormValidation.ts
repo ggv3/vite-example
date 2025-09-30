@@ -66,21 +66,31 @@ export const useFormValidation = <T>({ state, validators }: UseFormValidationPro
       const existingError = errors.find((err: ValidationError) => err.id === id)
 
       if (errorMessage) {
-        const errorObj = {
-          id,
-          message: errorMessage,
-          orderNumber,
-        }
+        const errorObj: ValidationError = { id, message: errorMessage, orderNumber }
         if (existingError) {
           updateError(errorObj)
         } else {
           addError(errorObj)
         }
-      } else {
+      } else if (existingError) {
         removeError(id)
       }
+
+      // After adding/updating/removing, update alert visibility
+      const newErrors: ValidationError[] = Object.keys(validators)
+        .map((id, index) => {
+          const fieldValue = get(state, id) as string | number
+          const fieldValidator = validators[id]
+          const errorMessage = fieldValidator(fieldValue, state)
+          return errorMessage ? { id, message: errorMessage, orderNumber: index } : null
+        })
+        .filter((e): e is ValidationError => e !== null)
+
+      if (newErrors.length === 0) {
+        toggleAlert(false)
+      }
     },
-    [state, validators, errors, updateError, addError, removeError],
+    [state, validators, errors, toggleAlert, updateError, addError, removeError],
   )
 
   const validateAll = useCallback(() => {

@@ -34,6 +34,7 @@ export const Form: FC = () => {
   return (
     <>
       <ValidationAlert />
+
       <form className="form">
         <input
           id="firstName"
