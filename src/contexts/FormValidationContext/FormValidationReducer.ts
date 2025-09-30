@@ -10,8 +10,9 @@ export interface FormValidationContextState {
 }
 
 export type FormValidationAction =
-  | { type: 'TOGGLE_ALERT' }
+  | { type: 'TOGGLE_ALERT'; isVisible: boolean }
   | { type: 'ADD_ERROR'; error: ValidationError }
+  | { type: 'ADD_ERRORS'; errors: ValidationError[] }
   | { type: 'REMOVE_ERROR'; id: string }
   | { type: 'CLEAR_ERRORS' }
   | { type: 'UPDATE_ERROR'; error: ValidationError }
@@ -22,12 +23,20 @@ export const FormValidationReducer = (
 ): FormValidationContextState => {
   switch (action.type) {
     case 'TOGGLE_ALERT': {
-      return { ...formValidationState, isAlertVisible: !formValidationState.isAlertVisible }
+      return { ...formValidationState, isAlertVisible: action.isVisible }
     }
+
     case 'ADD_ERROR': {
       return {
         ...formValidationState,
         errors: [...formValidationState.errors, action.error],
+      }
+    }
+
+    case 'ADD_ERRORS': {
+      return {
+        ...formValidationState,
+        errors: action.errors,
       }
     }
 

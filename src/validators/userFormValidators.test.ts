@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { firstNameValidator, userFormValidators } from './useFormValidators'
+import { firstNameValidator, userFormValidators } from './userFormValidators'
 
 describe('firstNameValidator', () => {
   it('returns "required" for empty string', () => {

@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { useFormValidation } from '../../hooks/useFormValidation'
-import { userFormValidators } from '../../validators/useFormValidators'
+import { userFormValidators } from '../../validators/userFormValidators'
 import { FormValidationAlert } from '../FormValidationAlert/FormValidationAlert'
 import './NewUserForm.css'
 
@@ -26,7 +26,10 @@ export const Form: FC = () => {
     lastName: '',
   })
 
-  const { validateField } = useFormValidation({ state: user, validators: userFormValidators })
+  const { validateField, validateAll } = useFormValidation({
+    state: user,
+    validators: userFormValidators,
+  })
   return (
     <form className="form">
       <input
@@ -50,6 +53,15 @@ export const Form: FC = () => {
           validateField('lastName', 1)
         }}
       />
+
+      <button
+        onClick={(event) => {
+          event.preventDefault()
+          validateAll()
+        }}
+      >
+        validate all
+      </button>
     </form>
   )
 }

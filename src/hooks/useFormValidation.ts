@@ -29,6 +29,13 @@ export const useFormValidation = <T>({ state, validators }: UseFormValidationPro
     [dispatch],
   )
 
+  const addErrors = useCallback(
+    (errors: ValidationError[]) => {
+      dispatch({ type: 'ADD_ERRORS', errors })
+    },
+    [dispatch],
+  )
+
   const updateError = useCallback(
     (error: ValidationError) => {
       dispatch({ type: 'UPDATE_ERROR', error })
@@ -43,11 +50,17 @@ export const useFormValidation = <T>({ state, validators }: UseFormValidationPro
     [dispatch],
   )
 
+  const toggleAlert = useCallback(
+    (isVisible: boolean) => {
+      dispatch({ type: 'TOGGLE_ALERT', isVisible })
+    },
+    [dispatch],
+  )
+
   const validateField = useCallback(
     (id: string, orderNumber: number) => {
       const fieldValue = get(state, id) as string | number
       const fieldValidator = validators[id]
-      // if (!fieldValidator) return
 
       const errorMessage = fieldValidator(fieldValue, state)
       const existingError = errors.find((err: ValidationError) => err.id === id)
@@ -70,8 +83,28 @@ export const useFormValidation = <T>({ state, validators }: UseFormValidationPro
     [state, validators, errors, updateError, addError, removeError],
   )
 
+  const validateAll = useCallback(() => {
+    // Build fresh errors instead of relying on context state
+    const newErrors: ValidationError[] = Object.keys(validators)
+      .map((id, index) => {
+        const fieldValue = get(state, id) as string | number
+        const fieldValidator = validators[id]
+        const errorMessage = fieldValidator(fieldValue, state)
+        return errorMessage ? { id, message: errorMessage, orderNumber: index } : null
+      })
+      .filter((e): e is ValidationError => e !== null)
+
+    // Replace errors in one go
+    addErrors(newErrors)
+
+    // Update alert visibility immediately
+    toggleAlert(newErrors.length > 0)
+
+    return newErrors
+  }, [validators, addErrors, toggleAlert, state])
+
   return useMemo(
-    () => ({ formValidationState, validateField }),
-    [formValidationState, validateField],
+    () => ({ formValidationState, validateField, validateAll }),
+    [formValidationState, validateAll, validateField],
   )
 }

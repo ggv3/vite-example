@@ -13,9 +13,9 @@ const initialState: FormValidationContextState = {
 describe('TOGGLE_ALERT', () => {
   it('toggles alert visibility', () => {
     const state = { ...initialState, isAlertVisible: false }
-    const newState = FormValidationReducer(state, { type: 'TOGGLE_ALERT' })
+    const newState = FormValidationReducer(state, { type: 'TOGGLE_ALERT', isVisible: true })
     expect(newState.isAlertVisible).toBe(true)
-    const toggledState = FormValidationReducer(newState, { type: 'TOGGLE_ALERT' })
+    const toggledState = FormValidationReducer(newState, { type: 'TOGGLE_ALERT', isVisible: false })
     expect(toggledState.isAlertVisible).toBe(false)
   })
 })
@@ -26,6 +26,22 @@ describe('ADD_ERROR', () => {
     const newState = FormValidationReducer(initialState, { type: 'ADD_ERROR', error })
     expect(newState.errors).toHaveLength(1)
     expect(newState.errors[0]).toEqual(error)
+  })
+})
+
+describe('ADD_ERRORS', () => {
+  it('adds a new error', () => {
+    const oldErrors: ValidationError[] = [{ id: '1', message: 'Required', orderNumber: 1 }]
+    const newErrors: ValidationError[] = [
+      { id: '1', message: 'Forbidden letter', orderNumber: 1 },
+      { id: '2', message: 'required', orderNumber: 2 },
+    ]
+    const newState = FormValidationReducer(
+      { ...initialState, errors: oldErrors },
+      { type: 'ADD_ERRORS', errors: newErrors },
+    )
+    expect(newState.errors).toHaveLength(2)
+    expect(newState.errors).toEqual(newErrors)
   })
 })
 

@@ -8,9 +8,9 @@ export const ValidationAlert: FC = () => {
     throw new Error('useFormValidation must be used within a FormValidationProvider')
   }
   const { formValidationState } = context
-  const { errors } = formValidationState
+  const { errors, isAlertVisible } = formValidationState
 
-  if (errors.length === 0) {
+  if (errors.length === 0 || !isAlertVisible) {
     return null
   }
 
