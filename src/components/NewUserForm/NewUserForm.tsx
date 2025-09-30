@@ -1,7 +1,8 @@
 import { FC, useState } from 'react'
+import { FormValidationProvider } from '../../contexts/FormValidationContext/FormValidationContext'
 import { useFormValidation } from '../../hooks/useFormValidation'
 import { userFormValidators } from '../../validators/userFormValidators'
-import { FormValidationAlert } from '../FormValidationAlert/FormValidationAlert'
+import { ValidationAlert } from '../ValidationAlert/ValidationAlert'
 import './NewUserForm.css'
 
 interface NewUserState {
@@ -13,9 +14,9 @@ export const NewUserForm = () => {
   return (
     <>
       <h2>Instert a new user</h2>
-      <FormValidationAlert>
+      <FormValidationProvider>
         <Form />
-      </FormValidationAlert>
+      </FormValidationProvider>
     </>
   )
 }
@@ -31,37 +32,40 @@ export const Form: FC = () => {
     validators: userFormValidators,
   })
   return (
-    <form className="form">
-      <input
-        id="firstName"
-        name="firstName"
-        onChange={(event) => {
-          setUser({ ...user, firstName: event.target.value })
-        }}
-        onBlur={() => {
-          validateField('firstName', 0)
-        }}
-      />
+    <>
+      <ValidationAlert />
+      <form className="form">
+        <input
+          id="firstName"
+          name="firstName"
+          onChange={(event) => {
+            setUser({ ...user, firstName: event.target.value })
+          }}
+          onBlur={() => {
+            validateField('firstName', 0)
+          }}
+        />
 
-      <input
-        id="lastName"
-        name="lastName"
-        onChange={(event) => {
-          setUser({ ...user, lastName: event.target.value })
-        }}
-        onBlur={() => {
-          validateField('lastName', 1)
-        }}
-      />
+        <input
+          id="lastName"
+          name="lastName"
+          onChange={(event) => {
+            setUser({ ...user, lastName: event.target.value })
+          }}
+          onBlur={() => {
+            validateField('lastName', 1)
+          }}
+        />
 
-      <button
-        onClick={(event) => {
-          event.preventDefault()
-          validateAll()
-        }}
-      >
-        validate all
-      </button>
-    </form>
+        <button
+          onClick={(event) => {
+            event.preventDefault()
+            validateAll()
+          }}
+        >
+          validate all
+        </button>
+      </form>
+    </>
   )
 }
