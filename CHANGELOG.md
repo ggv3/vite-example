@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.2.22](https://github.com/ggv3/vite-example/compare/v0.2.21...v0.2.22) (2025-11-10)
+
 ## [0.2.21](https://github.com/ggv3/vite-example/compare/v0.2.20...v0.2.21) (2025-11-10)
 
 ## [0.2.20](https://github.com/ggv3/vite-example/compare/v0.2.19...v0.2.20) (2025-11-10)
