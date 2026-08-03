@@ -25,7 +25,7 @@
     "@types/lodash": "^4.17.24",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.4",
+    "@vitejs/plugin-react": "^6.0.5",
     "commitlint": "^21.2.1",
     "eslint": "^10.8.0",
     "eslint-plugin-react": "^7.37.4",
